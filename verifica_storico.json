@@ -1,0 +1,67 @@
+{
+ "ultimo_aggiornamento": "2026-08-09 23:30",
+ "runs": [
+  {
+   "date": "2026-08-09 23:30",
+   "window": [
+    "2026-07-10",
+    "2026-08-09"
+   ],
+   "window_days": 30,
+   "winner": "ecmwf_ifs025",
+   "models": [
+    {
+     "key": "ecmwf_ifs025",
+     "label": "ECMWF IFS 0.25° (HRES)",
+     "temp_mae": 0.5987500000000002,
+     "temp_rmse": 0.7575453781787598,
+     "temp_bias": -0.340138888888889,
+     "tmax_err": 0.3433333333333335,
+     "tmin_err": 0.36000000000000004,
+     "wind_mae": 1.627916666666667,
+     "hum_mae": 4.079166666666667,
+     "precip_mae": 0.09333333333333335,
+     "precip_tot_fc": 17.7,
+     "precip_tot_obs": 15.500000000000002,
+     "giorni_pioggia": 7,
+     "composite": 1.1378846153846154,
+     "ore": 720
+    },
+    {
+     "key": "icon_seamless",
+     "label": "DWD ICON (seamless)",
+     "temp_mae": 0.9909722222222223,
+     "temp_rmse": 1.2332263467110256,
+     "temp_bias": -0.12875000000000006,
+     "tmax_err": 1.4933333333333332,
+     "tmin_err": 1.466666666666667,
+     "wind_mae": 2.2527777777777778,
+     "hum_mae": 6.965277777777778,
+     "precip_mae": 0.5166666666666667,
+     "precip_tot_fc": 0.0,
+     "precip_tot_obs": 15.500000000000002,
+     "giorni_pioggia": 7,
+     "composite": 2.0700000000000003,
+     "ore": 720
+    },
+    {
+     "key": "best_match",
+     "label": "Best-match (ICON)",
+     "temp_mae": 0.9909722222222223,
+     "temp_rmse": 1.2332263467110256,
+     "temp_bias": -0.12875000000000006,
+     "tmax_err": 1.4933333333333332,
+     "tmin_err": 1.466666666666667,
+     "wind_mae": 2.2527777777777778,
+     "hum_mae": 6.965277777777778,
+     "precip_mae": 0.5166666666666667,
+     "precip_tot_fc": 0.0,
+     "precip_tot_obs": 15.500000000000002,
+     "giorni_pioggia": 7,
+     "composite": 2.0700000000000003,
+     "ore": 720
+    }
+   ]
+  }
+ ]
+}
