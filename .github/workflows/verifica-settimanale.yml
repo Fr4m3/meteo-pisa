@@ -1,0 +1,53 @@
+name: Verifica modelli meteo (settimanale)
+
+on:
+  schedule:
+    - cron: "15 4 * * 1"   # ogni lunedì alle 04:15 UTC (06:15 IT)
+  workflow_dispatch:        # esecuzione manuale dal tab Actions
+
+permissions:
+  contents: write
+
+jobs:
+  verifica:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Confronta modelli su 30 giorni
+        run: python .github/scripts/compare_models_v2.py
+
+      - name: Aggiorna storico e calibrazione
+        run: |
+          python .github/scripts/verifica_storico.py
+          python .github/scripts/calibra_modello.py
+          python .github/scripts/build_verifica.py
+
+      - name: Rigenera previsioni e pagina col vincitore
+        run: |
+          python .github/scripts/fetch_forecast.py
+          python .github/scripts/build_page.py
+
+      - name: Copia i template nella radice (se non presenti)
+        run: |
+          cp -n .github/scripts/verifica.template.html . 2>/dev/null || true
+          cp -n .github/scripts/index.template.html . 2>/dev/null || true
+
+      - name: Committa se cambiato
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A
+          if ! git diff --cached --quiet; then
+            git commit -m "chore: verifica settimanale modelli ($(date -u +'%Y-%m-%d %H:%M UTC'))"
+            git push
+            echo "verifica pubblicata"
+          else
+            echo "nessuna variazione: niente commit"
+          fi

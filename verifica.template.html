@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Verifica modelli meteo — Pisa</title>
+<style>
+  :root{ --bg:#0b1220; --card:#151f38; --card2:#1b2745; --tx:#e8eefc; --mut:#93a1c8;
+         --acc:#ffb703; --ok:#34d399; --warn:#fbbf24; --line:#26355c; }
+  *{box-sizing:border-box; margin:0; padding:0}
+  body{background:linear-gradient(180deg,var(--bg) 0%,#0d1630 45%,var(--bg) 100%);
+       color:var(--tx); font-family:'Segoe UI',system-ui,-apple-system,sans-serif; min-height:100vh}
+  .wrap{max-width:1080px; margin:0 auto; padding:18px 16px 60px}
+  header{display:flex; flex-wrap:wrap; gap:12px; align-items:center; justify-content:space-between; margin-bottom:18px}
+  .brand h1{font-size:22px; font-weight:700}
+  .brand small{display:block; color:var(--mut); font-weight:400; font-size:12.5px}
+  .chips{display:flex; gap:8px; flex-wrap:wrap}
+  .chip{background:var(--card); border:1px solid var(--line); border-radius:999px; padding:5px 12px; font-size:12px; color:var(--mut)}
+  .chip b{color:var(--acc)}
+  a.back{color:var(--acc); text-decoration:none; font-size:13px}
+  .cards{display:grid; grid-template-columns:repeat(auto-fit,minmax(150px,1fr)); gap:10px; margin-bottom:18px}
+  .stat{background:var(--card); border:1px solid var(--line); border-radius:14px; padding:12px}
+  .stat .k{font-size:11px; color:var(--mut); text-transform:uppercase; letter-spacing:.5px}
+  .stat .v{font-size:20px; font-weight:700; margin-top:4px}
+  .stat .v small{color:var(--mut); font-weight:400; font-size:12px}
+  .card{background:var(--card); border:1px solid var(--line); border-radius:14px; padding:16px; margin-bottom:18px}
+  .card h3{font-size:14px; margin-bottom:4px; color:var(--mut); text-transform:uppercase; letter-spacing:.6px}
+  .card .sub{font-size:12px; color:var(--mut); margin-bottom:12px}
+  .chartbox{position:relative; height:340px}
+  table{width:100%; border-collapse:collapse; font-size:12px}
+  th,td{padding:6px 8px; text-align:center; border-bottom:1px solid #1f2c4d; white-space:nowrap}
+  th{color:var(--mut); font-weight:600}
+  tr:hover td{background:rgba(255,255,255,.04)}
+  tr.win td{background:rgba(52,211,153,.09)}
+  .run-hdr td{background:#1b2745; color:var(--acc); font-weight:700; text-align:left}
+  .win-badge{color:var(--ok); font-weight:700}
+  .tbl-scroll{overflow-x:auto}
+  .note{font-size:12.5px; color:var(--mut); margin-top:12px; line-height:1.7}
+  footer{margin-top:24px; font-size:12px; color:var(--mut); border-top:1px solid var(--line); padding-top:14px}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header>
+    <div class="brand">
+      <h1>⚖️ Verifica dei modelli meteo — Pisa</h1>
+      <small>Classifica oggettiva basata sul confronto previsioni↔osservazioni reali</small>
+    </div>
+    <div class="chips">
+      <span class="chip">Verifiche: <b id="n-runs">—</b></span>
+      <span class="chip">Vincitore attuale: <b id="cur-winner">—</b></span>
+      <span class="chip"><a class="back" href="./">← Pagina meteo</a></span>
+    </div>
+  </header>
+
+  <div class="cards" id="cards"></div>
+
+  <div class="card">
+    <h3>📈 Evoluzione dello score composito (minore = migliore)</h3>
+    <div class="sub">Score = MAE ponderata (temperatura 2, pioggia 1.5, vento 1, umidità 1, max/min giornaliere 0.5)</div>
+    <div class="chartbox"><canvas id="chart-line"></canvas></div>
+  </div>
+
+  <div class="card">
+    <h3>📊 Ultima verifica — errore per metrica e modello</h3>
+    <div class="sub" id="last-window">—</div>
+    <div class="chartbox"><canvas id="chart-bar"></canvas></div>
+  </div>
+
+  <div class="card">
+    <h3>🗂️ Dettaglio delle verifiche</h3>
+    <div class="tbl-scroll"><table id="tbl"><thead><tr>
+      <th>Finestra</th><th>Modello</th><th>Temp MAE</th><th>Bias T</th><th>Max giorn.</th><th>Min giorn.</th>
+      <th>Vento</th><th>Umidità</th><th>Pioggia prev/reale</th><th>Giorni pioggia</th><th>Score</th>
+    </tr></thead><tbody></tbody></table></div>
+  </div>
+
+  <div class="note" id="note"></div>
+
+  <footer id="foot"></footer>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js"></script>
+<script>
+const V = __VERIFICA_JSON__;
+const runs = (V.runs || []).slice().reverse();   // piu' recenti prima
+const last = runs[0] || null;
+
+const $ = s => document.querySelector(s);
+const fmt = (x,d) => x!=null && !isNaN(x) ? Number(x).toFixed(d) : "—";
+
+/* ---- cards riassuntive ---- */
+function cardsHtml(){
+  if(!last) return '<div class="stat"><div class="k">Nessuna verifica</div><div class="v">—</div></div>';
+  const w = last.models[0];
+  const n = runs.length;
+  let tot = 0, cnt = 0;
+  runs.forEach(r => { r.models.forEach(m => { if(m.composite!=null){tot+=m.composite;cnt++;} }); });
+  const avg = cnt? (tot/cnt) : null;
+  const cards = [
+    ["Verifiche", n, "finestre di 30 giorni"],
+    ["Vincitore attuale", w.label, last.window[0]+" → "+last.window[1]],
+    ["Best temp MAE", fmt(w.temp_mae,2)+" °C", w.label],
+    ["Score medio modelli", fmt(avg,2), "ultima corsa: "+fmt(w.composite,2)],
+    ["Ore confrontate", w.ore ?? "—", "per modello, ultima corsa"],
+  ];
+  return cards.map(([k,v,s]) =>
+    `<div class="stat"><div class="k">${k}</div><div class="v">${v}<small>${s}</small></div></div>`).join("");
+}
+
+/* ---- line chart: composite per modello nel tempo ---- */
+function lineChart(){
+  if(!window.Chart) return;
+  const labels = runs.map(r => r.window[0]);
+  const byModel = {};
+  runs.forEach(r => r.models.forEach(m => {
+    (byModel[m.label] = byModel[m.label]||[]).push(m.composite);
+  }));
+  const colors = ["#ffb703","#60a5fa","#34d399","#f472b6","#a78bfa","#fb8500"];
+  const ds = Object.keys(byModel).map((label,i) => ({
+    label, data: byModel[label], borderColor: colors[i%colors.length],
+    backgroundColor: colors[i%colors.length], borderWidth: 2, pointRadius: 3,
+    tension: .3, spanGaps: true,
+  }));
+  new Chart($("#chart-line"), {
+    data:{labels, datasets:ds},
+    options:{ responsive:true, maintainAspectRatio:false,
+      plugins:{legend:{labels:{color:"#93a1c8", boxWidth:14}},
+               tooltip:{backgroundColor:"#0d1630", borderColor:"#26355c", borderWidth:1}},
+      scales:{ x:{ticks:{color:"#93a1c8"}, grid:{color:"rgba(38,53,92,.5)"}},
+               y:{title:{display:true, text:"Score composito (MAE)"}, ticks:{color:"#93a1c8"}, grid:{color:"rgba(38,53,92,.5)"}} } }
+  });
+}
+
+/* ---- bar chart: ultima verifica, metriche per modello ---- */
+function barChart(){
+  if(!window.Chart || !last) return;
+  const labels = last.models.map(m => m.label);
+  const MET = [
+    ["temp_mae","Temp MAE (°C)","#ffb703"],
+    ["tmax_err","Errore max giorn. (°C)","#fb8500"],
+    ["tmin_err","Errore min giorn. (°C)","#f59e0b"],
+    ["wind_mae","Vento MAE (m/s)","#60a5fa"],
+    ["hum_mae","Umidità MAE (%)","#34d399"],
+    ["precip_mae","Pioggia MAE (mm/g)","#a78bfa"],
+  ];
+  const ds = MET.map(([k,label,color]) => ({
+    label, backgroundColor: color, data: last.models.map(m => m[k]!=null?+m[k]:null),
+  }));
+  new Chart($("#chart-bar"), {
+    data:{labels, datasets:ds},
+    options:{ responsive:true, maintainAspectRatio:false,
+      plugins:{legend:{labels:{color:"#93a1c8", boxWidth:14}},
+               tooltip:{backgroundColor:"#0d1630", borderColor:"#26355c", borderWidth:1}},
+      scales:{ x:{ticks:{color:"#93a1c8"}, grid:{color:"rgba(38,53,92,.5)"}},
+               y:{beginAtZero:true, ticks:{color:"#93a1c8"}, grid:{color:"rgba(38,53,92,.5)"}} } }
+  });
+}
+
+/* ---- tabella ---- */
+function tableHtml(){
+  let html = "";
+  runs.forEach(r => {
+    const wm = r.models.find(m => m.key === r.winner);
+    const wl = wm ? wm.label : r.winner;
+    html += `<tr class="run-hdr"><td colspan="11">Corsa del ${r.date} — finestra ${r.window[0]} → ${r.window[1]} (${r.window_days} giorni) · vincitore: ${wl}</td></tr>`;
+    r.models.forEach(m => {
+      const win = m.key === r.winner;
+      const prec = m.precip_tot_fc!=null && m.precip_tot_obs!=null ? `${fmt(m.precip_tot_fc,1)} / ${fmt(m.precip_tot_obs,1)} mm` : "—";
+      html += `<tr class="${win?"win":""}">
+        <td>${r.window[0]}</td>
+        <td>${win?'🏆 ':''}${m.label}${win?' <span class="win-badge">VINCITORE</span>':''}</td>
+        <td>${fmt(m.temp_mae,2)}°</td><td>${m.temp_bias!=null?(m.temp_bias>0?"+":"")+fmt(m.temp_bias,2)+"°":"—"}</td><td>${fmt(m.tmax_err,2)}°</td><td>${fmt(m.tmin_err,2)}°</td>
+        <td>${fmt(m.wind_mae,2)}</td><td>${fmt(m.hum_mae,1)}%</td><td>${prec}</td>
+        <td>${fmt(m.giorni_pioggia,0)}</td><td>${fmt(m.composite,3)}</td>
+      </tr>`;
+    });
+  });
+  return html;
+}
+
+/* ---- note ---- */
+function notes(){
+  const R = runs.length;
+  const top = {};
+  runs.forEach(r => { const wm = r.models[0]; if(wm) top[wm.label] = (top[wm.label]||0)+1; });
+  const ranking = Object.entries(top).sort((a,b)=>b[1]-a[1])
+    .map(([k,v]) => `${k} (${v}v/${R})`).join(" · ");
+  $("#n-runs").textContent = R;
+  $("#cur-winner").textContent = last? last.models[0].label : "—";
+  $("#last-window").textContent = last? `Finestra ${last.window[0]} → ${last.window[1]} · ${last.window_days} giorni · ore confrontate per modello: ${last.models[0].ore ?? "—"}` : "—";
+  $("#note").textContent = "Metodologia: ogni corsa confronta ora per ora (allineate per timestamp) le previsioni archiviate dei modelli Open-Meteo con le osservazioni (stazioni + rianalisi ERA5) per Pisa (43.72N, 10.40E), sugli ultimi 30 giorni. Metriche: MAE/RMSE/bias su temperatura, umidità e vento; errore medio su max/min giornaliere; MAE sul totale di pioggia giornaliero; score composito ponderato (minore = migliore). Le corse mensili si accumulano automaticamente in questo report. GFS e AIFS non hanno storico archiviato su Open-Meteo (serie vuote); Yr/MET Norway escluso perché i suoi dati storici sono analisi. Uso informativo.";
+  $("#foot").innerHTML = `Ultimo aggiornamento storico: <b>${V.ultimo_aggiornamento || "—"}</b> · Vincite per modello: <b>${ranking || "—"}</b> · Dati: Open-Meteo · Verifica generata da <b>compare_models_v2.py</b> su Termux.`;
+}
+
+$("#cards").innerHTML = cardsHtml();
+$("#tbl tbody").innerHTML = tableHtml();
+notes();
+lineChart();
+barChart();
+</script>
+</body>
+</html>

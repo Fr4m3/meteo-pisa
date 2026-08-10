@@ -1,0 +1,45 @@
+name: Aggiorna previsioni Pisa (giornaliero)
+
+on:
+  schedule:
+    - cron: "30 5,17 * * *"   # 2 volte al giorno: 05:30 e 17:30 UTC (07:30 e 19:30 IT)
+  workflow_dispatch:           # esecuzione manuale dal tab Actions
+
+permissions:
+  contents: write
+
+jobs:
+  previsioni:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Scarica previsioni dal modello vincente
+        run: python .github/scripts/fetch_forecast.py
+
+      - name: Prepara i template nella radice
+        run: |
+          cp -n .github/scripts/index.template.html . 2>/dev/null || true
+          cp -n .github/scripts/verifica.template.html . 2>/dev/null || true
+
+      - name: Rigenera la pagina
+        run: python .github/scripts/build_page.py
+
+      - name: Committa se cambiato
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          if ! git diff --quiet -- forecast.json index.html; then
+            git add forecast.json index.html
+            git commit -m "chore: previsioni Pisa ($(date -u +'%Y-%m-%d %H:%M UTC'))"
+            git push
+            echo "previsioni aggiornate e pushato"
+          else
+            echo "nessuna variazione: niente commit"
+          fi
