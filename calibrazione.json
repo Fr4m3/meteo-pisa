@@ -1,0 +1,23 @@
+{
+ "generated_at": "2026-08-10 06:44",
+ "basato_su": {
+  "window": [
+   "2026-07-10",
+   "2026-08-09"
+  ],
+  "window_days": 30,
+  "ore_confrontate": 720,
+  "giorni_pioggia_osservati": 7
+ },
+ "vincitore": "ecmwf_ifs025",
+ "vincitore_label": "ECMWF IFS 0.25° (HRES)",
+ "temp_offset": 0.24,
+ "temp_bias_misurato": -0.34,
+ "precip_ratio": 0.938,
+ "precip_osservato_mm": 15.5,
+ "precip_previsto_mm": 17.7,
+ "wind_offset": 0.53,
+ "wind_bias_misurato": -1.066,
+ "humidity_offset": -0.6,
+ "humidity_bias_misurato": 1.251
+}

@@ -71,7 +71,7 @@
   <div class="card">
     <h3>🗂️ Dettaglio delle verifiche</h3>
     <div class="tbl-scroll"><table id="tbl"><thead><tr>
-      <th>Finestra</th><th>Modello</th><th>Temp MAE</th><th>Max giorn.</th><th>Min giorn.</th>
+      <th>Finestra</th><th>Modello</th><th>Temp MAE</th><th>Bias T</th><th>Max giorn.</th><th>Min giorn.</th>
       <th>Vento</th><th>Umidità</th><th>Pioggia prev/reale</th><th>Giorni pioggia</th><th>Score</th>
     </tr></thead><tbody></tbody></table></div>
   </div>
@@ -164,14 +164,14 @@ function tableHtml(){
   runs.forEach(r => {
     const wm = r.models.find(m => m.key === r.winner);
     const wl = wm ? wm.label : r.winner;
-    html += `<tr class="run-hdr"><td colspan="10">Corsa del ${r.date} — finestra ${r.window[0]} → ${r.window[1]} (${r.window_days} giorni) · vincitore: ${wl}</td></tr>`;
+    html += `<tr class="run-hdr"><td colspan="11">Corsa del ${r.date} — finestra ${r.window[0]} → ${r.window[1]} (${r.window_days} giorni) · vincitore: ${wl}</td></tr>`;
     r.models.forEach(m => {
       const win = m.key === r.winner;
       const prec = m.precip_tot_fc!=null && m.precip_tot_obs!=null ? `${fmt(m.precip_tot_fc,1)} / ${fmt(m.precip_tot_obs,1)} mm` : "—";
       html += `<tr class="${win?"win":""}">
         <td>${r.window[0]}</td>
         <td>${win?'🏆 ':''}${m.label}${win?' <span class="win-badge">VINCITORE</span>':''}</td>
-        <td>${fmt(m.temp_mae,2)}°</td><td>${fmt(m.tmax_err,2)}°</td><td>${fmt(m.tmin_err,2)}°</td>
+        <td>${fmt(m.temp_mae,2)}°</td><td>${m.temp_bias!=null?(m.temp_bias>0?"+":"")+fmt(m.temp_bias,2)+"°":"—"}</td><td>${fmt(m.tmax_err,2)}°</td><td>${fmt(m.tmin_err,2)}°</td>
         <td>${fmt(m.wind_mae,2)}</td><td>${fmt(m.hum_mae,1)}%</td><td>${prec}</td>
         <td>${fmt(m.giorni_pioggia,0)}</td><td>${fmt(m.composite,3)}</td>
       </tr>`;
