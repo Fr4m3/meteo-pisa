@@ -1,5 +1,5 @@
 {
- "ultimo_aggiornamento": "2026-08-09 23:30",
+ "ultimo_aggiornamento": "2026-08-10 07:00",
  "runs": [
   {
    "date": "2026-08-09 23:30",
@@ -59,6 +59,68 @@
      "precip_tot_obs": 15.500000000000002,
      "giorni_pioggia": 7,
      "composite": 2.0700000000000003,
+     "ore": 720
+    }
+   ]
+  },
+  {
+   "date": "2026-08-10 07:00",
+   "window": [
+    "2026-07-11",
+    "2026-08-10"
+   ],
+   "window_days": 30,
+   "winner": "ecmwf_ifs025",
+   "models": [
+    {
+     "key": "ecmwf_ifs025",
+     "label": "ECMWF IFS 0.25° (HRES)",
+     "temp_mae": 0.5862500000000002,
+     "temp_rmse": 0.7452162251469182,
+     "temp_bias": -0.33847222222222234,
+     "tmax_err": 0.31666666666666665,
+     "tmin_err": 0.35,
+     "wind_mae": 1.6434722222222222,
+     "hum_mae": 3.9902777777777776,
+     "precip_mae": 0.07666666666666669,
+     "precip_tot_fc": 16.8,
+     "precip_tot_obs": 15.100000000000001,
+     "giorni_pioggia": 6,
+     "composite": 1.1160897435897437,
+     "ore": 720
+    },
+    {
+     "key": "icon_seamless",
+     "label": "DWD ICON (seamless)",
+     "temp_mae": 0.9993055555555556,
+     "temp_rmse": 1.2439464529383,
+     "temp_bias": -0.15430555555555558,
+     "tmax_err": 1.5266666666666666,
+     "tmin_err": 1.426666666666667,
+     "wind_mae": 2.3,
+     "hum_mae": 7.1,
+     "precip_mae": 0.5033333333333334,
+     "precip_tot_fc": 0.0,
+     "precip_tot_obs": 15.100000000000001,
+     "giorni_pioggia": 6,
+     "composite": 2.096965811965812,
+     "ore": 720
+    },
+    {
+     "key": "best_match",
+     "label": "Best-match (ICON)",
+     "temp_mae": 0.9993055555555556,
+     "temp_rmse": 1.2439464529383,
+     "temp_bias": -0.15430555555555558,
+     "tmax_err": 1.5266666666666666,
+     "tmin_err": 1.426666666666667,
+     "wind_mae": 2.3,
+     "hum_mae": 7.1,
+     "precip_mae": 0.5033333333333334,
+     "precip_tot_fc": 0.0,
+     "precip_tot_obs": 15.100000000000001,
+     "giorni_pioggia": 6,
+     "composite": 2.096965811965812,
      "ore": 720
     }
    ]
