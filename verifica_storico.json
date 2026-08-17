@@ -1,5 +1,5 @@
 {
- "ultimo_aggiornamento": "2026-08-10 07:00",
+ "ultimo_aggiornamento": "2026-08-17 04:57",
  "runs": [
   {
    "date": "2026-08-09 23:30",
@@ -121,6 +121,68 @@
      "precip_tot_obs": 15.100000000000001,
      "giorni_pioggia": 6,
      "composite": 2.096965811965812,
+     "ore": 720
+    }
+   ]
+  },
+  {
+   "date": "2026-08-17 04:57",
+   "window": [
+    "2026-07-18",
+    "2026-08-17"
+   ],
+   "window_days": 30,
+   "winner": "ecmwf_ifs025",
+   "models": [
+    {
+     "key": "ecmwf_ifs025",
+     "label": "ECMWF IFS 0.25° (HRES)",
+     "temp_mae": 0.6083333333333334,
+     "temp_rmse": 0.7914648865658329,
+     "temp_bias": -0.3011111111111114,
+     "tmax_err": 0.3666666666666664,
+     "tmin_err": 0.356666666666667,
+     "wind_mae": 1.6131944444444428,
+     "hum_mae": 4.398611111111111,
+     "precip_mae": 0.13666666666666671,
+     "precip_tot_fc": 21.000000000000004,
+     "precip_tot_obs": 17.3,
+     "giorni_pioggia": 7,
+     "composite": 1.1992521367521367,
+     "ore": 720
+    },
+    {
+     "key": "icon_seamless",
+     "label": "DWD ICON (seamless)",
+     "temp_mae": 1.089861111111112,
+     "temp_rmse": 1.329656388361712,
+     "temp_bias": -0.08763888888888892,
+     "tmax_err": 1.563333333333333,
+     "tmin_err": 1.5466666666666669,
+     "wind_mae": 2.6727777777777777,
+     "hum_mae": 7.961111111111111,
+     "precip_mae": 0.5766666666666667,
+     "precip_tot_fc": 0.0,
+     "precip_tot_obs": 17.3,
+     "giorni_pioggia": 7,
+     "composite": 2.343632478632479,
+     "ore": 720
+    },
+    {
+     "key": "best_match",
+     "label": "Best-match (ICON)",
+     "temp_mae": 1.089861111111112,
+     "temp_rmse": 1.329656388361712,
+     "temp_bias": -0.08763888888888892,
+     "tmax_err": 1.563333333333333,
+     "tmin_err": 1.5466666666666669,
+     "wind_mae": 2.6727777777777777,
+     "hum_mae": 7.961111111111111,
+     "precip_mae": 0.5766666666666667,
+     "precip_tot_fc": 0.0,
+     "precip_tot_obs": 17.3,
+     "giorni_pioggia": 7,
+     "composite": 2.343632478632479,
      "ore": 720
     }
    ]
