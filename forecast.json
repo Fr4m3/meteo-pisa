@@ -1,5 +1,5 @@
 {
- "generated_at": "2026-08-31 10:50",
+ "generated_at": "2026-08-31 11:46",
  "model": "ecmwf_ifs025",
  "model_label": "ECMWF IFS 0.25° (HRES)",
  "bias_corr": {
@@ -35,25 +35,25 @@
   "elevation": 6.0
  },
  "current": {
-  "time": "2026-08-31T12:45",
+  "time": "2026-08-31T13:45",
   "interval": 900,
-  "temperature_2m": 29.8,
-  "apparent_temperature": 33.2,
+  "temperature_2m": 29.9,
+  "apparent_temperature": 32.8,
   "relative_humidity_2m": 56.0,
   "is_day": 1,
   "precipitation": 0.0,
   "weather_code": 0,
-  "wind_speed_10m": 10.6,
-  "wind_direction_10m": 249,
-  "surface_pressure": 1015.2,
-  "cloud_cover": 0,
+  "wind_speed_10m": 14.2,
+  "wind_direction_10m": 253,
+  "surface_pressure": 1015.1,
+  "cloud_cover": 1,
   "uv_index": null,
-  "dew_point_2m": 19.8,
-  "wind_gusts_10m": 30.6,
+  "dew_point_2m": 19.9,
+  "wind_gusts_10m": 38.1,
   "visibility": null,
   "cloud_cover_low": 0,
   "cloud_cover_mid": 0,
-  "cloud_cover_high": 7
+  "cloud_cover_high": 10
  },
  "hourly": {
   "time": [
