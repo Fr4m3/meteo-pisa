@@ -1,5 +1,5 @@
 {
- "ultimo_aggiornamento": "2026-08-31 10:50",
+ "ultimo_aggiornamento": "2026-09-07 09:19",
  "runs": [
   {
    "date": "2026-08-09 23:30",
@@ -307,6 +307,68 @@
      "precip_tot_obs": 58.6,
      "giorni_pioggia": 7,
      "composite": 2.7734401709401717,
+     "ore": 720
+    }
+   ]
+  },
+  {
+   "date": "2026-09-07 09:19",
+   "window": [
+    "2026-08-08",
+    "2026-09-07"
+   ],
+   "window_days": 30,
+   "winner": "ecmwf_ifs025",
+   "models": [
+    {
+     "key": "ecmwf_ifs025",
+     "label": "ECMWF IFS 0.25° (HRES)",
+     "temp_mae": 0.6241666666666676,
+     "temp_rmse": 0.9011412517222571,
+     "temp_bias": -0.2677777777777779,
+     "tmax_err": 0.4499999999999999,
+     "tmin_err": 0.3533333333333334,
+     "wind_mae": 1.8249999999999982,
+     "hum_mae": 4.15,
+     "precip_mae": 0.8533333333333335,
+     "precip_tot_fc": 72.6,
+     "precip_tot_obs": 58.6,
+     "giorni_pioggia": 7,
+     "composite": 1.3699999999999999,
+     "ore": 720
+    },
+    {
+     "key": "best_match",
+     "label": "Best-match (ICON)",
+     "temp_mae": 1.4177777777777762,
+     "temp_rmse": 1.7344948031695635,
+     "temp_bias": 0.6683333333333339,
+     "tmax_err": 1.22,
+     "tmin_err": 2.2366666666666664,
+     "wind_mae": 2.6958333333333364,
+     "hum_mae": 7.8277777777777775,
+     "precip_mae": 1.9333333333333333,
+     "precip_tot_fc": 0.6000000000000001,
+     "precip_tot_obs": 58.6,
+     "giorni_pioggia": 7,
+     "composite": 2.767307692307692,
+     "ore": 720
+    },
+    {
+     "key": "icon_seamless",
+     "label": "DWD ICON (seamless)",
+     "temp_mae": 1.4177777777777762,
+     "temp_rmse": 1.7344948031695635,
+     "temp_bias": 0.6683333333333339,
+     "tmax_err": 1.22,
+     "tmin_err": 2.2366666666666664,
+     "wind_mae": 2.6958333333333364,
+     "hum_mae": 7.8277777777777775,
+     "precip_mae": 1.9366666666666668,
+     "precip_tot_fc": 0.5,
+     "precip_tot_obs": 58.6,
+     "giorni_pioggia": 7,
+     "composite": 2.768076923076923,
      "ore": 720
     }
    ]
