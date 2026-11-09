@@ -1,5 +1,5 @@
 {
- "ultimo_aggiornamento": "2026-11-02 12:20",
+ "ultimo_aggiornamento": "2026-11-09 12:49",
  "runs": [
   {
    "date": "2026-08-09 23:30",
@@ -865,6 +865,68 @@
      "precip_tot_obs": 238.2,
      "giorni_pioggia": 13,
      "composite": 4.3665170940170945,
+     "ore": 720
+    }
+   ]
+  },
+  {
+   "date": "2026-11-09 12:49",
+   "window": [
+    "2026-10-10",
+    "2026-11-09"
+   ],
+   "window_days": 30,
+   "winner": "ecmwf_ifs025",
+   "models": [
+    {
+     "key": "ecmwf_ifs025",
+     "label": "ECMWF IFS 0.25° (HRES)",
+     "temp_mae": 0.44402777777777813,
+     "temp_rmse": 0.5961333743383268,
+     "temp_bias": -0.013472222222222167,
+     "tmax_err": 0.22000000000000006,
+     "tmin_err": 0.34999999999999987,
+     "wind_mae": 2.1291666666666664,
+     "hum_mae": 2.8513888888888888,
+     "precip_mae": 1.1666666666666654,
+     "precip_tot_fc": 160.50000000000003,
+     "precip_tot_obs": 169.7,
+     "giorni_pioggia": 10,
+     "composite": 1.2159401709401707,
+     "ore": 720
+    },
+    {
+     "key": "icon_seamless",
+     "label": "DWD ICON (seamless)",
+     "temp_mae": 1.6816666666666673,
+     "temp_rmse": 1.9299899251320218,
+     "temp_bias": 1.6199999999999992,
+     "tmax_err": 0.7966666666666669,
+     "tmin_err": 2.186666666666667,
+     "wind_mae": 3.03125,
+     "hum_mae": 9.488888888888889,
+     "precip_mae": 4.993333333333333,
+     "precip_tot_fc": 45.699999999999996,
+     "precip_tot_obs": 169.7,
+     "giorni_pioggia": 10,
+     "composite": 3.8254059829059837,
+     "ore": 720
+    },
+    {
+     "key": "best_match",
+     "label": "Best-match (ICON)",
+     "temp_mae": 1.6825000000000006,
+     "temp_rmse": 1.9314286594815409,
+     "temp_bias": 1.6208333333333325,
+     "tmax_err": 0.7966666666666669,
+     "tmin_err": 2.186666666666667,
+     "wind_mae": 3.031111111111111,
+     "hum_mae": 9.493055555555555,
+     "precip_mae": 4.993333333333333,
+     "precip_tot_fc": 45.699999999999996,
+     "precip_tot_obs": 169.7,
+     "giorni_pioggia": 10,
+     "composite": 3.8262820512820515,
      "ore": 720
     }
    ]
