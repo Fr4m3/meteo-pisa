@@ -1,23 +1,23 @@
 {
- "generated_at": "2026-11-09 12:49",
+ "generated_at": "2026-11-16 12:42",
  "basato_su": {
   "window": [
-   "2026-10-10",
-   "2026-11-09"
+   "2026-10-17",
+   "2026-11-16"
   ],
   "window_days": 30,
   "ore_confrontate": 720,
-  "giorni_pioggia_osservati": 10
+  "giorni_pioggia_osservati": 15
  },
  "vincitore": "ecmwf_ifs025",
  "vincitore_label": "ECMWF IFS 0.25° (HRES)",
  "temp_offset": 0.0,
- "temp_bias_misurato": -0.013,
- "precip_ratio": 1.029,
- "precip_osservato_mm": 169.7,
- "precip_previsto_mm": 160.5,
- "wind_offset": 0.71,
- "wind_bias_misurato": -1.418,
- "humidity_offset": 0.1,
- "humidity_bias_misurato": -0.11
+ "temp_bias_misurato": 0.013,
+ "precip_ratio": 0.961,
+ "precip_osservato_mm": 296.9,
+ "precip_previsto_mm": 322.0,
+ "wind_offset": 0.9,
+ "wind_bias_misurato": -1.798,
+ "humidity_offset": -0.3,
+ "humidity_bias_misurato": 0.639
 }
